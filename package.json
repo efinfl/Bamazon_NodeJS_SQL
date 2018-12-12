@@ -1,0 +1,31 @@
+{
+  "name": "bamazon_nodejs_sql",
+  "version": "1.0.0",
+  "description": "nodejs_sql_app",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/efinfl/Bamazon_NodeJS_SQL.git"
+  },
+  "keywords": [
+    "NodeJS",
+    "JavaScript",
+    "SQL",
+    "CLI",
+    "Bamazon"
+  ],
+  "author": "Eric Figueroa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/efinfl/Bamazon_NodeJS_SQL/issues"
+  },
+  "homepage": "https://github.com/efinfl/Bamazon_NodeJS_SQL#readme",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "inquirer": "^6.2.1",
+    "mysql": "^2.16.0"
+  }
+}
