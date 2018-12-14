@@ -47,8 +47,8 @@ function promptId(results) {
             type: "input",
             message: "What's the ID of the product you want?",
             validate: function (value) {
-                quantPass = value
-                if (quantPass > 0) {
+                answerId = value
+                if (answerId > 0) {
                     return true;
                 }
                 else {
@@ -57,23 +57,17 @@ function promptId(results) {
             }
         }).then(function (answers) {
             answerId = answers.item_id; // Takes answer and keeps it as variable
-            if (answerId < results.length && answerId > 0) { // If less than the result's index and greater than 0, console.log the id
+            if (answerId < (results.length + 1) && answerId > 0) { // If less than the result's index and greater than 0, console.log the id
 
-                // connection.query("SELECT * FROM `products` WHERE `id` = ?", ['answerID'], function (err, results, fields) {
-                //     if (err) throw err;
-                // });
-                // chosenProduct = answer.product_name
-
-                // console.log(answer.product_name);
-
-                console.log("--------------------------------------")
+                // console.log("--------------------------------------")
                 console.log("You've chosen product ID: " + chalk.bold.yellow(answerId));
                 console.log("--------------------------------------")
 
                 promptQuantity();
             }
             else {
-                console.log("Not a valid id. Try again")
+                console.log("Not a valid id. Try again");
+                
             }
 
         });
@@ -88,7 +82,7 @@ function promptQuantity() {
             validate: function (value) {
                 quantPass = value; // validates that the answer is a number
                 if (quantPass > 0) {
-                    console.log("This is pass " + quantPass)
+                    // console.log("This is pass " + quantPass)
                     return true;
                 }
                 else {
@@ -99,22 +93,30 @@ function promptQuantity() {
             quantPass = parseInt(quantPass);
             connection.query("SELECT * FROM products WHERE item_id = " + answerId,
                 function (err, results) {
-                    // console.log(results[0].stock_quantity)
+                    // console.log("Quantity in stock: " + results[0].stock_quantity)
+                    // console.log("Quantity chosen: " + quantPass)
                     var quantInStock = results[0].stock_quantity
                     if (err) {
                         throw err;
                     }
 
                     else if (!err && quantPass < quantInStock) {
-                        console.log("Your order has been placed.")
+                        // console.log("--------------------------------------");
+                        console.log("You want " + chalk.bold.yellow(quantPass) + " of item " + chalk.bold.yellow(answerId));
+                        console.log(chalk.bold.green("Your order has been placed."));
+                        console.log("--------------------------------------");
+                        connection.end()
+
+                    }
+
+                    else if (!err && quantPass > quantInStock) {
+                        console.log(chalk.bold.red("Not enough in stock. Choose a lower number."));
+                        console.log("--------------------------------------");
+                        promptQuantity()
                     };
-                    connection.end()
+
+                    
                 });
-
-
-            console.log("--------------------------------------");
-            console.log("You want " + chalk.bold.yellow(quantPass) + " of item " + chalk.bold.yellow(answerId));
-            console.log("--------------------------------------");
 
 
         });
